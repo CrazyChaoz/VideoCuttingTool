@@ -2,7 +2,6 @@ package at.jku.videocuttingtool.frontend;
 
 import at.jku.videocuttingtool.backend.Backend;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class GUI extends Application {
 
-	Backend backend=new Backend();
+	Backend backend = new Backend();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -26,63 +25,32 @@ public class GUI extends Application {
 
 
 	@Override
-	public void start(Stage primaryStage){
+	public void start(Stage primaryStage) {
 		Scene scene = new Scene(showMenu(primaryStage));
 		primaryStage.setTitle("VideoCuttingTool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 
-	private Parent showMenu(Stage stage){
-		Label label=new Label("Was möchten Sie tun?");
-		Button src=new Button("Sourcefiles adden");
-		Button dir=new Button("Working Dir setzen");
+	private Parent showMenu(Stage stage) {
+		Label label = new Label("Was möchten Sie tun?");
+		Button src = new Button("Sourcefiles adden");
+		Button dir = new Button("Working Dir setzen");
 
-		src.setOnMouseClicked((event)->{
-			stage.getScene().setRoot(showSourceSelection(stage));
-		});
-
-		dir.setOnMouseClicked((event)->{
-			stage.getScene().setRoot(showWorkingDirSelection(stage));
-		});
-
-		return new VBox(label,new HBox(src,dir));
-	}
-
-
-	private Parent showSourceSelection(Stage stage){
-		Label label = new Label("Bitte Sourcefiles auswählen");
-		FileChooser fileChooser = new FileChooser();
-
-		Button selectFiles = new Button("Select Files");
-		selectFiles.setOnAction(event -> {
+		src.setOnMouseClicked((event) -> {
+			FileChooser fileChooser = new FileChooser();
 			List<File> files = fileChooser.showOpenMultipleDialog(stage);
-			backend.addSources(files);
-			stage.getScene().setRoot(showMenu(stage));
+			if (files != null)
+				backend.addSources(files);
 		});
 
-		VBox root = new VBox();
-		root.setAlignment(Pos.CENTER);
-		root.getChildren().addAll(label, selectFiles);
-
-		return root;
-	}
-
-	private Parent showWorkingDirSelection(Stage stage){
-		Label label = new Label("Bitte Working Directory auswählen");
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-
-		Button selectFiles = new Button("Select Files");
-		selectFiles.setOnAction(event -> {
+		dir.setOnMouseClicked((event) -> {
+			DirectoryChooser directoryChooser = new DirectoryChooser();
 			File file = directoryChooser.showDialog(stage);
-			backend.setWorkingDir(file);
-			stage.getScene().setRoot(showMenu(stage));
+			if (file != null)
+				backend.setWorkingDir(file);
 		});
 
-		VBox root = new VBox();
-		root.setAlignment(Pos.CENTER);
-		root.getChildren().addAll(label, selectFiles);
-
-		return root;
+		return new VBox(label, new HBox(src, dir));
 	}
 }
