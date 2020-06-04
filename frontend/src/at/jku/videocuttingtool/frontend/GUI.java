@@ -1,28 +1,30 @@
 package at.jku.videocuttingtool.frontend;
 
 import at.jku.videocuttingtool.backend.Backend;
-import at.jku.videocuttingtool.backend.Source;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 public class GUI extends Application {
 
-	Backend backend = new Backend();
+	private Backend backend = new Backend();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -71,7 +73,7 @@ public class GUI extends Application {
 		return new VBox(label, new HBox(src, dir),displayAll);
 	}
 
-	private void createVisualContainer(Source source,URL fxmlUrl){
+	private void createVisualContainer(Media source, URL fxmlUrl){
 		FXMLLoader loader=new FXMLLoader();
 		loader.setLocation(fxmlUrl);
 
@@ -82,9 +84,34 @@ public class GUI extends Application {
 		}
 
 		Stage popup=new Stage();
-		popup.setTitle(source.getFile().getName());
+		popup.setTitle(source.getSource());
 		((CommonController)loader.getController()).setSource(source);
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();
 	}
+
+	private void convertingProgressBar(int files){
+		Stage popup=new Stage();
+		Group root = new Group();
+		Scene scene = new Scene(root);
+		popup.setScene(scene);
+		popup.setTitle("Progress Controls");
+
+
+
+		final ProgressBar pb = new ProgressBar(0);
+
+//		slider.valueProperty().addListener((ov, old_val, new_val) -> {
+//			pb.setProgress(new_val.doubleValue()/files);
+//		});
+
+		final HBox hb = new HBox();
+		hb.setSpacing(5);
+		hb.setAlignment(Pos.CENTER);
+		hb.getChildren().addAll(pb);
+		scene.setRoot(hb);
+
+		popup.show();
+	}
+
 }
