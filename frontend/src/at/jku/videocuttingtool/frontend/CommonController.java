@@ -1,12 +1,12 @@
 package at.jku.videocuttingtool.frontend;
 
-import at.jku.videocuttingtool.backend.Source;
+import javafx.scene.media.Media;
 
 public abstract class CommonController {
 
-	protected Source source;
+	protected Media source;
 
-	public void setSource(Source s){
+	public void setSource(Media s){
 		source = s;
 	}
 
