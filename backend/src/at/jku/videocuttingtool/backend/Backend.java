@@ -15,7 +15,7 @@ public class Backend {
 
 
 	private void addSource(File sourcefile){
-		files.add(new Media(sourcefile.getAbsolutePath()));
+		files.add(new Media(sourcefile.getPath()));
 	}
 
 	public void addSources(List<File> sourcefiles){
