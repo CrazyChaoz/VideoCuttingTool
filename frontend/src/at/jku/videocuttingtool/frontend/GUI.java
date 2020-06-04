@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.scene.media.Media;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -101,8 +103,11 @@ public class GUI extends Application {
 	private void convertingProgressBar(int files) {
 		convertingFilesProgressIndicator = new Stage();
 		filesToConvertProperty =new SimpleIntegerProperty(files);
-		convertingFilesProgressIndicator.setScene(new Scene(progressBarHandling(files)));
+		convertingFilesProgressIndicator.initStyle(StageStyle.UTILITY);
 		convertingFilesProgressIndicator.setTitle("Converting Files");
+		convertingFilesProgressIndicator.setScene(new Scene(progressBarHandling(files)));
+		convertingFilesProgressIndicator.setOnCloseRequest(unused->convertingFilesProgressIndicator=null);
+		convertingFilesProgressIndicator.sizeToScene();
 		convertingFilesProgressIndicator.show();
 	}
 
@@ -122,10 +127,13 @@ public class GUI extends Application {
 			progress.setText(new_val+"/"+files);
 		});
 
-		final VBox box = new VBox();
+
+		final HBox box = new HBox();
+		box.setStyle("-fx-font-size: 15px;");
 		box.setSpacing(5);
+		box.setPadding(new Insets(10,10,10,10));
 		box.setAlignment(Pos.CENTER);
-		box.getChildren().addAll(new Label("Converting Files"), new HBox(pb,progress));
+		box.getChildren().addAll(pb,progress);
 		return box;
 	}
 
