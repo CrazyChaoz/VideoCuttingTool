@@ -115,7 +115,7 @@ public class GUI extends Application {
 	}
 
 	private Parent progressBarHandling(int files) {
-		Label progress=new Label("");
+		Label progress=new Label(0+"/"+files);
 		ProgressBar pb = new ProgressBar(0);
 
 		convertingFiles.addListener((ov, old_val, new_val) -> {
@@ -123,10 +123,10 @@ public class GUI extends Application {
 			progress.setText(new_val+"/"+files);
 		});
 
-		final HBox hb = new HBox();
-		hb.setSpacing(5);
-		hb.setAlignment(Pos.CENTER);
-		hb.getChildren().addAll(new Label("Converting Files"), new VBox(pb,progress));
-		return hb;
+		final VBox box = new VBox();
+		box.setSpacing(5);
+		box.setAlignment(Pos.CENTER);
+		box.getChildren().addAll(new Label("Converting Files"), new HBox(pb,progress));
+		return box;
 	}
 }

@@ -3,6 +3,8 @@ package at.jku.videocuttingtool.backend;
 import javafx.scene.media.Media;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,11 @@ public class Backend {
 
 
 	private void addSource(File sourcefile){
-		files.add(new Media(sourcefile.getAbsolutePath()));
+		try {
+			files.add(new Media(sourcefile.toURI().toURL().toExternalForm()));
+		} catch (MalformedURLException e) {
+			System.err.println("error in file");
+		}
 	}
 
 	public void addSources(List<File> sourcefiles){
