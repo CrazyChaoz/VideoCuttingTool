@@ -6,7 +6,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +26,7 @@ import java.util.List;
 public class GUI extends Application {
 
 	private Backend backend = new Backend();
-	private IntegerProperty convertingFiles;
+	private IntegerProperty filesToConvertProperty;
 	private Stage convertingFilesProgressIndicator;
 
 	public static void main(String[] args) {
@@ -101,15 +100,15 @@ public class GUI extends Application {
 
 	private void convertingProgressBar(int files) {
 		convertingFilesProgressIndicator = new Stage();
-		convertingFiles=new SimpleIntegerProperty(files);
+		filesToConvertProperty =new SimpleIntegerProperty(files);
 		convertingFilesProgressIndicator.setScene(new Scene(progressBarHandling(files)));
 		convertingFilesProgressIndicator.setTitle("Converting Files");
 		convertingFilesProgressIndicator.show();
 	}
 
 	private void updateProgressBar(int files) {
-		int files2=files+convertingFiles.get();
-		convertingFiles.set(files2);
+		int files2=files+ filesToConvertProperty.get();
+		filesToConvertProperty.set(files2);
 		progressBarHandling(files2);
 		convertingFilesProgressIndicator.getScene().setRoot(progressBarHandling(files2));
 	}
@@ -118,7 +117,7 @@ public class GUI extends Application {
 		Label progress=new Label(0+"/"+files);
 		ProgressBar pb = new ProgressBar(0);
 
-		convertingFiles.addListener((ov, old_val, new_val) -> {
+		filesToConvertProperty.addListener((ov, old_val, new_val) -> {
 			pb.setProgress(new_val.doubleValue() / files);
 			progress.setText(new_val+"/"+files);
 		});
@@ -128,5 +127,9 @@ public class GUI extends Application {
 		box.setAlignment(Pos.CENTER);
 		box.getChildren().addAll(new Label("Converting Files"), new HBox(pb,progress));
 		return box;
+	}
+
+	public void fileConverted(){
+		filesToConvertProperty.subtract(1);
 	}
 }
