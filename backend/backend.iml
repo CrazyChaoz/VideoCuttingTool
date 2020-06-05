@@ -24,5 +24,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="net.bramp.ffmpeg:ffmpeg:0.6.2" level="project" />
   </component>
 </module>
