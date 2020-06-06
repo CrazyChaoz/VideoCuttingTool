@@ -1,20 +1,20 @@
 package at.jku.videocuttingtool.backend;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Timeline {
-    /**
-     * first video timeline
-     */
-    private final List<Clip> video = new ArrayList<>();
-    /**
-     * first audio timeline
-     */
-    private final List<Clip> audio = new ArrayList<>();
+    private final Set<Clip> video = new TreeSet<>();
+    private final Set<Clip> audio = new TreeSet<>();
 
-    // TODO maybe more than 1 timeline for video & audio
+    public void addVideo(Clip video){
+        this.video.add(video);
+    }
 
+    public void addAudio(Clip audio){
+        this.audio.add(audio);
+    }
 
     public void setVideo(List<Clip> video){
         this.video.addAll(video);
@@ -24,11 +24,11 @@ public class Timeline {
         this.audio.addAll(audio);
     }
 
-    public List<Clip> getVideo() {
+    public Set<Clip> getVideo() {
         return video;
     }
 
-    public List<Clip> getAudio() {
+    public Set<Clip> getAudio() {
         return audio;
     }
 }

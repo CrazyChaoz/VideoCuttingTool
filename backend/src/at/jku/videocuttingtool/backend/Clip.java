@@ -1,57 +1,51 @@
 package at.jku.videocuttingtool.backend;
 
-import javafx.scene.media.Media;
+import java.io.File;
 
-public class Clip {
+public class Clip implements Comparable<Clip>{
+    private final int pos;
     /**
      * original uncut media link
      */
-    private final Media media;
+    private final File media;
     /**
      * start time (relative to the media) of cut media
-     * if 0 -> no cut in front
+     * hh:mm:ss.xxx
+     * if "" -> no cut in front
      */
-    private final long start;
-    /**
-     * end time (relative to the media) of cut media
-     * if 0 -> no cut in back
-     */
-    private final long fin;
-    /**
-     * position of the cut media in the timeline
-     */
-    private final long pos;
+    private final String start;
     /**
      * length of the cut media in the timeline
-     * if 0 -> whole cut media will be placed at pos
+     * hh:mm:ss.xxx
+     * if "" -> whole cut media will be placed at pos
      */
-    private final long length;
+    private final String end;
 
-    public Clip(Media media, long start, long fin ,long pos, long length) {
+    public Clip(File media, int pos, String start, String end) {
         this.media = media;
-        this.start = start;
-        this.fin = fin;
         this.pos = pos;
-        this.length = length;
+        this.start = start;
+        this.end = end;
     }
 
-    public Media getMedia() {
-        return media;
+    @Override
+    public int compareTo(Clip o) {
+        return Integer.compare(pos,o.pos);
     }
 
-    public long getStart() {
-        return start;
-    }
-
-    public long getFin() {
-        return fin;
-    }
-
-    public long getPos() {
+    public int getPos() {
         return pos;
     }
 
-    public long getLength() {
-        return length;
+    public File getMedia() {
+        return media;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
     }
 }
