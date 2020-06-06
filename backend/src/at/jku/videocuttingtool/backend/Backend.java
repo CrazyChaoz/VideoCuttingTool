@@ -21,11 +21,11 @@ import static java.util.stream.Collectors.joining;
  * des is a temporäre impl, das i vom frontend auf daten zugreifn kau
  * */
 public class Backend {
-	private List<Media> files = new ArrayList<>();
+	private List<File> files = new ArrayList<>();
 	private File workingDir;
 
 	private void addSource(File source) {
-		files.add(new Media(source.getAbsolutePath()));
+		files.add(source);
 	}
 
 	public void addSources(List<File> sources){
@@ -105,7 +105,7 @@ public class Backend {
 		}
 	}
 
-	public List<Media> getSources(){
+	public List<File> getSources(){
 		return files;
 	}
 
