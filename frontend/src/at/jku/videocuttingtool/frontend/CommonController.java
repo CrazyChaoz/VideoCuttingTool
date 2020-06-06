@@ -8,6 +8,5 @@ public abstract class CommonController {
 
 	public abstract void setSource(File s);
 
-	public abstract void initialize();
 
 }

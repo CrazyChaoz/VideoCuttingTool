@@ -3,8 +3,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.media.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.videocuttingtool.frontend.video.VisualsController">
-   <children>
-      <MediaView fx:id="mediaView" layoutX="200.0" layoutY="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-   </children>
-</AnchorPane>
+<BorderPane fx:id="papaContainer" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.videocuttingtool.frontend.video.VisualsController">
+   <center>
+      <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="650.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
