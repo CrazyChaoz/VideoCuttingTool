@@ -23,6 +23,7 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.List;
 
 public class GUI extends Application {
@@ -71,11 +72,16 @@ public class GUI extends Application {
 
 		displayAll.setOnMouseClicked((event) -> {
 			backend.getSources().forEach((source -> {
-				if (backend.isVideo(source)) {
-					createVisualContainer(source, getClass().getResource("video/Visuals.fxml"));
-				}
-				if (backend.isAudio(source)) {
-					createVisualContainer(source, getClass().getResource("audio/Visuals.fxml"));
+				try {
+					System.out.println(getContentType(source));
+					if (isVideo(source)) {
+						createVisualContainer(source, getClass().getResource("video/Visuals.fxml"));
+					}
+					if (isAudio(source)) {
+						createVisualContainer(source, getClass().getResource("audio/Visuals.fxml"));
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}));
 		});
@@ -83,7 +89,20 @@ public class GUI extends Application {
 		return new VBox(label, new HBox(src, dir), displayAll);
 	}
 
-	private void createVisualContainer(Media source, URL fxmlUrl) {
+	private String getContentType(File source) throws IOException {
+		return Files.probeContentType(source.toPath());
+	}
+
+
+	private boolean isAudio(File source) throws IOException {
+		return getContentType(source).split("/")[0].equals("audio");
+	}
+
+	private boolean isVideo(File source) throws IOException {
+		return getContentType(source).split("/")[0].equals("video");
+	}
+
+	private void createVisualContainer(File source, URL fxmlUrl) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(fxmlUrl);
 
@@ -94,7 +113,7 @@ public class GUI extends Application {
 		}
 
 		Stage popup = new Stage();
-		popup.setTitle(source.getSource());
+		popup.setTitle(source.getName());
 		((CommonController) loader.getController()).setSource(source);
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();

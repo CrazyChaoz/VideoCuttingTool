@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.videocuttingtool.frontend.video.VisualsController">
-   <children>
-      <Label fx:id="sourceLabel" text="SourceFileName [Placeholder]" />
-   </children>
-</VBox>
+<BorderPane fx:id="papaContainer" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.jku.videocuttingtool.frontend.video.VisualsController">
+   <center>
+      <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="650.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
