@@ -1,37 +1,50 @@
 package at.jku.videocuttingtool.backend;
 
+import java.io.File;
+
+/**
+ * Container Class for an export
+ */
 public class Export {
     private final Timeline timeline;
-    private final String exportDir;
+    private final File exportDir;
     private final String exportName;
-    private final String videoCodec;
-    private final String audioCodec;
+    private final String videoFormat;
+    private final String audioFormat;
 
-    public Export(Timeline timeline, String exportDir, String exportName, String videoCodec, String audioCodec) {
+    /**
+     *
+     * @param timeline timeline instance which should be exported
+     * @param exportDir the directory to export to
+     * @param exportName the name of the final exported file
+     * @param videoFormat the format / codec of the exported video
+     * @param audioFormat the format / codec for the audio of the exported video
+     */
+    public Export(Timeline timeline, File exportDir, String exportName, String videoFormat, String audioFormat) {
         this.timeline = timeline;
         this.exportDir = exportDir;
         this.exportName = exportName;
-        this.videoCodec = videoCodec;
-        this.audioCodec = audioCodec;
+        this.videoFormat = videoFormat;
+        this.audioFormat = audioFormat;
     }
 
     public Timeline getTimeline() {
         return timeline;
     }
 
-    public String getExportDir() {
+    public File getExportDir() {
         return exportDir;
     }
 
     public String getExportName() {
-        return exportName;
+        return exportDir+"\\"+exportName;
     }
 
-    public String getVideoCodec() {
-        return videoCodec;
+    public String getVideoFormat() {
+        return videoFormat;
     }
 
-    public String getAudioCodec() {
-        return audioCodec;
+    public String getAudioFormat() {
+        return audioFormat;
     }
 }

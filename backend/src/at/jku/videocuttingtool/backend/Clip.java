@@ -2,25 +2,28 @@ package at.jku.videocuttingtool.backend;
 
 import java.io.File;
 
+/**
+ * Class for a media file,
+ * which can include Timestamps [from - to].
+ * The media will be cut at the specified timestamps
+ */
 public class Clip implements Comparable<Clip>{
     private final int pos;
-    /**
-     * original uncut media link
-     */
     private final File media;
-    /**
-     * start time (relative to the media) of cut media
-     * hh:mm:ss.xxx
-     * if "" -> no cut in front
-     */
     private final String start;
-    /**
-     * length of the cut media in the timeline
-     * hh:mm:ss.xxx
-     * if "" -> whole cut media will be placed at pos
-     */
     private final String end;
 
+    /**
+     *
+     * @param media original uncut media link
+     * @param pos the position of the clip in the timeline
+     * @param start start time (relative to the media) of cut media
+     *              hh:mm:ss.xxx
+     *              if "" -> no cut in front
+     * @param end length of the cut media in the timeline
+     *            hh:mm:ss.xxx
+     *            if "" -> whole cut media will be placed at pos
+     */
     public Clip(File media, int pos, String start, String end) {
         this.media = media;
         this.pos = pos;
