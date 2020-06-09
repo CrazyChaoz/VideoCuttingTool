@@ -1,34 +1,35 @@
 package at.jku.videocuttingtool.backend;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+
+import java.util.*;
 
 public class Timeline {
-    private final Set<Clip> video = new TreeSet<>();
-    private final Set<Clip> audio = new TreeSet<>();
+    private final List<Clip> video = new ArrayList<>();
+    private final List<Clip> audio = new ArrayList<>();
 
-    public void addVideo(Clip video){
+    public void addVideo(Clip video) {
         this.video.add(video);
     }
 
-    public void addAudio(Clip audio){
+    public void addAudio(Clip audio) {
         this.audio.add(audio);
     }
 
-    public void setVideo(List<Clip> video){
+    public void setVideo(Set<Clip> video) {
         this.video.addAll(video);
     }
 
-    public void setAudio(List<Clip> audio){
+    public void setAudio(Set<Clip> audio) {
         this.audio.addAll(audio);
     }
 
-    public Set<Clip> getVideo() {
+    public List<Clip> getVideo() {
+        video.sort(Clip::compareTo);
         return video;
     }
 
-    public Set<Clip> getAudio() {
+    public List<Clip> getAudio() {
+        audio.sort(Clip::compareTo);
         return audio;
     }
 }

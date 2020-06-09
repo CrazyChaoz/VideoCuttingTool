@@ -10,10 +10,22 @@ public class EditMediaException extends Exception{
 
     public EditMediaException(InputStream errorStream){
         BufferedReader err = new BufferedReader(new InputStreamReader(errorStream));
-        this.msg = err.lines().collect(Collectors.joining());
+        this.msg = err.lines().collect(Collectors.joining("\n"));
     }
 
     public String getMsg() {
         return msg;
+    }
+
+    @Override
+    public String toString() {
+        return "EditMediaException{" +
+                "msg='" + msg + '\'' +
+                '}';
+    }
+
+    @Override
+    public void printStackTrace() {
+        System.out.println(msg);
     }
 }
