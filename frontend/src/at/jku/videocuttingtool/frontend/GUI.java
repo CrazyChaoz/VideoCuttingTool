@@ -1,6 +1,7 @@
 package at.jku.videocuttingtool.frontend;
 
 import at.jku.videocuttingtool.backend.Backend;
+import at.jku.videocuttingtool.frontend.mediacontainer.VisualsController;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,7 +22,6 @@ import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -43,6 +42,7 @@ public class GUI extends Application {
 		primaryStage.setTitle("VideoCuttingTool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setOnCloseRequest(event -> convertingFilesProgressIndicator.close());
 	}
 
 	private Parent showMenu(Stage stage) {
@@ -55,7 +55,7 @@ public class GUI extends Application {
 			FileChooser fileChooser = new FileChooser();
 			List<File> files = fileChooser.showOpenMultipleDialog(stage);
 			if (files != null) {
-				if (convertingFilesProgressIndicator==null)
+				if (convertingFilesProgressIndicator == null)
 					convertingProgressBar(files.size());
 				else
 					updateProgressBar(files.size());
@@ -74,12 +74,15 @@ public class GUI extends Application {
 			backend.getSources().forEach((source -> {
 				try {
 					System.out.println(getContentType(source));
+
+					VisualsController controller = createVisualContainer(source);
+
 					if (isVideo(source)) {
-						createVisualContainer(source, getClass().getResource("video/Visuals.fxml"));
+						controller.setSource(source);
+					} else if (isAudio(source)) {
+						//TODO: Implement Audio handling
 					}
-					if (isAudio(source)) {
-						createVisualContainer(source, getClass().getResource("audio/Visuals.fxml"));
-					}
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -102,9 +105,9 @@ public class GUI extends Application {
 		return getContentType(source).split("/")[0].equals("video");
 	}
 
-	private void createVisualContainer(File source, URL fxmlUrl) {
+	private VisualsController createVisualContainer(File source) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(fxmlUrl);
+		loader.setLocation(getClass().getResource("mediacontainer/Visuals.fxml"));
 
 		try {
 			loader.load();
@@ -114,49 +117,50 @@ public class GUI extends Application {
 
 		Stage popup = new Stage();
 		popup.setTitle(source.getName());
-		((CommonController) loader.getController()).setSource(source);
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();
+
+		return (VisualsController) loader.getController();
 	}
 
 	private void convertingProgressBar(int files) {
 		convertingFilesProgressIndicator = new Stage();
-		filesToConvertProperty =new SimpleIntegerProperty(files);
+		filesToConvertProperty = new SimpleIntegerProperty(files);
 		convertingFilesProgressIndicator.initStyle(StageStyle.UTILITY);
 		convertingFilesProgressIndicator.setTitle("Converting Files");
 		convertingFilesProgressIndicator.setScene(new Scene(progressBarHandling(files)));
-		convertingFilesProgressIndicator.setOnCloseRequest(unused->convertingFilesProgressIndicator=null);
+		convertingFilesProgressIndicator.setOnCloseRequest(unused -> convertingFilesProgressIndicator = null);
 		convertingFilesProgressIndicator.sizeToScene();
 		convertingFilesProgressIndicator.show();
 	}
 
 	private void updateProgressBar(int files) {
-		int files2=files+ filesToConvertProperty.get();
+		int files2 = files + filesToConvertProperty.get();
 		filesToConvertProperty.set(files2);
 		progressBarHandling(files2);
 		convertingFilesProgressIndicator.getScene().setRoot(progressBarHandling(files2));
 	}
 
 	private Parent progressBarHandling(int files) {
-		Label progress=new Label(0+"/"+files);
+		Label progress = new Label(0 + "/" + files);
 		ProgressBar pb = new ProgressBar(0);
 
 		filesToConvertProperty.addListener((ov, old_val, new_val) -> {
 			pb.setProgress(new_val.doubleValue() / files);
-			progress.setText(new_val+"/"+files);
+			progress.setText(new_val + "/" + files);
 		});
 
 
 		final HBox box = new HBox();
 		box.setStyle("-fx-font-size: 15px;");
 		box.setSpacing(5);
-		box.setPadding(new Insets(10,10,10,10));
+		box.setPadding(new Insets(10, 10, 10, 10));
 		box.setAlignment(Pos.CENTER);
-		box.getChildren().addAll(pb,progress);
+		box.getChildren().addAll(pb, progress);
 		return box;
 	}
 
-	public void fileConverted(){
+	public void fileConverted() {
 		filesToConvertProperty.subtract(1);
 	}
 }
