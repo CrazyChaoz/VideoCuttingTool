@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class GUI extends Application {
+	public static final int MINIMAL_SKIPPABLE_TIME=200; //milliseconds
 
 	private Backend backend = new Backend();
 	private IntegerProperty filesToConvertProperty;
@@ -42,7 +43,7 @@ public class GUI extends Application {
 		primaryStage.setTitle("VideoCuttingTool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		primaryStage.setOnCloseRequest(event -> convertingFilesProgressIndicator.close());
+		primaryStage.setOnCloseRequest(event -> {if(convertingFilesProgressIndicator!=null)convertingFilesProgressIndicator.close();});
 	}
 
 	private Parent showMenu(Stage stage) {
