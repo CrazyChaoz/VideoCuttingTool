@@ -17,7 +17,7 @@ import java.io.File;
 public class VisualsController {
 
 	@FXML
-	public MediaView mediaView;
+	private MediaView mediaView;
 
 	@FXML
 	public BorderPane papaContainer;
@@ -59,12 +59,13 @@ public class VisualsController {
 		mediaPlayer.currentTimeProperty().addListener(x -> Platform.runLater(() -> {
 
 			contentPositionSlider.setValue(mediaPlayer.getCurrentTime().toMillis() / mediaPlayer.getTotalDuration().toMillis() * 100);
-			if(contentPositionSlider.getValue()>endPositionSlider.getValue()){
+			if (contentPositionSlider.getValue() > endPositionSlider.getValue()) {
 				mediaPlayer.pause();
 			}
 		}));
 		mediaPlayer.play();
 	}
+
 
 	@FXML
 	private void repositionContentPositionSlider() {
@@ -129,6 +130,7 @@ public class VisualsController {
 				mediaView.getMediaPlayer().pause();
 			}
 		}
+
 		if (status == MediaPlayer.Status.HALTED || status == MediaPlayer.Status.STOPPED || status == MediaPlayer.Status.PAUSED) {
 			mediaView.getMediaPlayer().play();
 		}
@@ -144,5 +146,9 @@ public class VisualsController {
 	private void setEndPosition() {
 		//TODO: set endPositionSlider to curr
 		endPositionSlider.setValue(contentPositionSlider.getValue());
+	}
+
+	public void onClose() {
+		mediaView.getMediaPlayer().pause();
 	}
 }

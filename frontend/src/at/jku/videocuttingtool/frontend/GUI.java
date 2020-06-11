@@ -26,7 +26,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class GUI extends Application {
-	public static final int MINIMAL_SKIPPABLE_TIME=200; //milliseconds
+	public static final int MINIMAL_SKIPPABLE_TIME = 200; //milliseconds
 
 	private Backend backend = new Backend();
 	private IntegerProperty filesToConvertProperty;
@@ -43,7 +43,9 @@ public class GUI extends Application {
 		primaryStage.setTitle("VideoCuttingTool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		primaryStage.setOnCloseRequest(event -> {if(convertingFilesProgressIndicator!=null)convertingFilesProgressIndicator.close();});
+		primaryStage.setOnCloseRequest(event -> {
+			if (convertingFilesProgressIndicator != null) convertingFilesProgressIndicator.close();
+		});
 	}
 
 	private Parent showMenu(Stage stage) {
@@ -78,11 +80,10 @@ public class GUI extends Application {
 
 					VisualsController controller = createVisualContainer(source);
 
-					if (isVideo(source)) {
-						controller.setSource(source);
-					} else if (isAudio(source)) {
-						//TODO: Implement Audio handling
-					}
+//					if (isVideo(source)) {
+//					} else if (isAudio(source)) {
+//						//TODO: Implement Audio handling
+//					}
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -120,8 +121,10 @@ public class GUI extends Application {
 		popup.setTitle(source.getName());
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();
-
-		return (VisualsController) loader.getController();
+		VisualsController controller = loader.getController();
+		controller.setSource(source);
+		popup.setOnCloseRequest(uwu -> controller.onClose());
+		return controller;
 	}
 
 	private void convertingProgressBar(int files) {
