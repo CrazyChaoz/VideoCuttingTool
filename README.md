@@ -2,5 +2,4 @@
 
 A simple Video Cutting Tool
 
-
-![Logo](https://i.imgur.com/AzaU1bo.png | width=250)
+<img src="https://i.imgur.com/AzaU1bo.png" width="250" title="Logo">
