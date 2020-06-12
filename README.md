@@ -2,4 +2,4 @@
 
 A simple Video Cutting Tool
 
-![Fake Premiere](https://imgur.com/a/tx0z2QB)
+<img src="https://imgur.com/a/tx0z2QB" width="200" title="Fake Premiere">
