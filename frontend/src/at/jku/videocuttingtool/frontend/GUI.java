@@ -1,16 +1,17 @@
 package at.jku.videocuttingtool.frontend;
 
 import at.jku.videocuttingtool.backend.Backend;
+import at.jku.videocuttingtool.backend.Clip;
 import at.jku.videocuttingtool.frontend.mediacontainer.VisualsController;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
@@ -32,14 +33,18 @@ public class GUI extends Application {
 	private IntegerProperty filesToConvertProperty;
 	private Stage convertingFilesProgressIndicator;
 
+	private Stage primaryStage;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 
 	@Override
-	public void start(Stage primaryStage) {
-		Scene scene = new Scene(showMenu(primaryStage));
+	public void start(Stage primaryStage) throws IOException {
+		this.primaryStage=primaryStage;
+
+		Scene scene = new Scene(FXMLLoader.load(getClass().getResource("NewAndUpdatedMainGui.fxml")));
 		primaryStage.setTitle("VideoCuttingTool");
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -48,51 +53,6 @@ public class GUI extends Application {
 		});
 	}
 
-	private Parent showMenu(Stage stage) {
-		Label label = new Label("Was möchten Sie tun?");
-		Button src = new Button("Sourcefiles adden");
-		Button dir = new Button("Working Dir setzen");
-		Button displayAll = new Button("Alle Elemente Displayen");
-
-		src.setOnMouseClicked((event) -> {
-			FileChooser fileChooser = new FileChooser();
-			List<File> files = fileChooser.showOpenMultipleDialog(stage);
-			if (files != null) {
-				if (convertingFilesProgressIndicator == null)
-					convertingProgressBar(files.size());
-				else
-					updateProgressBar(files.size());
-				backend.addSources(files);
-			}
-		});
-
-		dir.setOnMouseClicked((event) -> {
-			DirectoryChooser directoryChooser = new DirectoryChooser();
-			File file = directoryChooser.showDialog(stage);
-			if (file != null)
-				backend.setWorkingDir(file);
-		});
-
-		displayAll.setOnMouseClicked((event) -> {
-			backend.getSources().forEach((source -> {
-				try {
-					System.out.println(getContentType(source));
-
-					VisualsController controller = createVisualContainer(source);
-
-//					if (isVideo(source)) {
-//					} else if (isAudio(source)) {
-//						//TODO: Implement Audio handling
-//					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}));
-		});
-
-		return new VBox(label, new HBox(src, dir), displayAll);
-	}
 
 	private String getContentType(File source) throws IOException {
 		return Files.probeContentType(source.toPath());
@@ -122,7 +82,7 @@ public class GUI extends Application {
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();
 		VisualsController controller = loader.getController();
-		controller.setSource(source);
+		controller.setSource(new Clip(source,0));
 		popup.setOnCloseRequest(uwu -> controller.onClose());
 		return controller;
 	}
@@ -167,4 +127,44 @@ public class GUI extends Application {
 	public void fileConverted() {
 		filesToConvertProperty.subtract(1);
 	}
+
+	@FXML
+	private void addSourceFiles() {
+		FileChooser fileChooser = new FileChooser();
+		List<File> files = fileChooser.showOpenMultipleDialog(primaryStage);
+		if (files != null) {
+//			if (convertingFilesProgressIndicator == null)
+//				convertingProgressBar(files.size());
+//			else
+//				updateProgressBar(files.size());
+			backend.addSources(files);
+		}
+	}
+
+	@FXML
+	private void setWorkingDir() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File file = directoryChooser.showDialog(primaryStage);
+		if (file != null)
+			backend.setWorkingDir(file);
+	}
+
+	@FXML
+	private void displayElements() {
+		backend.getSources().forEach((source -> {
+			try {
+				System.out.println(getContentType(source));
+
+				VisualsController controller = createVisualContainer(source);
+
+					if (isVideo(source)) {
+					} else if (isAudio(source)) {
+					}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}));
+	}
+
 }

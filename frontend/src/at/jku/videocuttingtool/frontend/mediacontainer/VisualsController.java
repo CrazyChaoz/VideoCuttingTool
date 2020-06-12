@@ -1,6 +1,7 @@
 package at.jku.videocuttingtool.frontend.mediacontainer;
 
 
+import at.jku.videocuttingtool.backend.Clip;
 import at.jku.videocuttingtool.frontend.GUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -50,9 +51,12 @@ public class VisualsController {
 	@FXML
 	private Slider endPositionSlider;
 
+	private Clip clip;
 
-	public void setSource(File s) {
-		MediaPlayer mediaPlayer = new MediaPlayer(new Media(s.toURI().toString()));
+
+	public void setSource(Clip clip) {
+		this.clip=clip;
+		MediaPlayer mediaPlayer = new MediaPlayer(new Media(clip.getMedia().toURI().toString()));
 		mediaView.setMediaPlayer(mediaPlayer);
 		mediaPlayer.currentTimeProperty().addListener(x -> Platform.runLater(() -> {
 			contentPositionSlider.setValue(mediaPlayer.getCurrentTime().toMillis() / mediaPlayer.getTotalDuration().toMillis() * 100);
@@ -60,8 +64,9 @@ public class VisualsController {
 				mediaPlayer.pause();
 			}
 		}));
+		mediaPlayer.setAutoPlay(false);
 
-		mediaPlayer.play();
+
 	}
 
 
@@ -138,9 +143,7 @@ public class VisualsController {
 			} else {
 				mediaView.getMediaPlayer().pause();
 			}
-		}
-
-		if (status == MediaPlayer.Status.HALTED || status == MediaPlayer.Status.STOPPED || status == MediaPlayer.Status.PAUSED) {
+		}else {
 			mediaView.getMediaPlayer().play();
 		}
 	}
@@ -149,12 +152,26 @@ public class VisualsController {
 	private void setBeginPosition() {
 		//set beginPositionSlider to curr
 		startPositionSlider.setValue(contentPositionSlider.getValue());
+
+		System.out.println(getBauerFormatting());
 	}
 
 	@FXML
 	private void setEndPosition() {
 		//set endPositionSlider to curr
 		endPositionSlider.setValue(contentPositionSlider.getValue());
+
+		System.out.println(getBauerFormatting());
+	}
+
+	private String getBauerFormatting(){
+		return 	(int)mediaView.getMediaPlayer().getCurrentTime().toHours()+
+				":"+
+				(int)mediaView.getMediaPlayer().getCurrentTime().toMinutes()%60+
+				":"+
+				(int)mediaView.getMediaPlayer().getCurrentTime().toSeconds()%60+
+				"."+
+				(int)mediaView.getMediaPlayer().getCurrentTime().toMillis()%1000;
 	}
 
 	public void onClose() {
