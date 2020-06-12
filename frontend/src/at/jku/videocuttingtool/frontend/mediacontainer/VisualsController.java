@@ -17,11 +17,9 @@ import java.io.File;
 public class VisualsController {
 
 	@FXML
-	private MediaView mediaView;
-
-	@FXML
 	public BorderPane papaContainer;
-
+	@FXML
+	private MediaView mediaView;
 	@FXML
 	private Button beginButton;
 
@@ -57,12 +55,12 @@ public class VisualsController {
 		MediaPlayer mediaPlayer = new MediaPlayer(new Media(s.toURI().toString()));
 		mediaView.setMediaPlayer(mediaPlayer);
 		mediaPlayer.currentTimeProperty().addListener(x -> Platform.runLater(() -> {
-
 			contentPositionSlider.setValue(mediaPlayer.getCurrentTime().toMillis() / mediaPlayer.getTotalDuration().toMillis() * 100);
 			if (contentPositionSlider.getValue() > endPositionSlider.getValue()) {
 				mediaPlayer.pause();
 			}
 		}));
+
 		mediaPlayer.play();
 	}
 
@@ -74,21 +72,32 @@ public class VisualsController {
 
 	@FXML
 	private void skipToBeginning() {
-		//TODO: set content to begin of selected, if already at begin of selected set startPositionSlider to absolute begin
-		mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getMedia().getDuration().multiply(startPositionSlider.getValue() / 100));
-		contentPositionSlider.setValue(startPositionSlider.getValue());
+		//set content to begin of selected, if already at begin of selected set startPositionSlider to absolute begin
+
+		if (contentPositionSlider.getValue() == startPositionSlider.getValue()) {
+			mediaView.getMediaPlayer().seek(Duration.millis(0));
+			contentPositionSlider.setValue(0);
+		} else {
+			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getMedia().getDuration().multiply(startPositionSlider.getValue() / 100));
+			contentPositionSlider.setValue(startPositionSlider.getValue());
+		}
 	}
 
 	@FXML
 	private void skipToEnd() {
-		//TODO: set content to end of selected, if already at end of selected set endPositionSlider to absolute end
-		mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getMedia().getDuration().multiply(endPositionSlider.getValue() / 100));
-		contentPositionSlider.setValue(endPositionSlider.getValue());
+		//set content to end of selected, if already at end of selected set endPositionSlider to absolute end
+		if (contentPositionSlider.getValue() == endPositionSlider.getValue()) {
+			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getMedia().getDuration());
+			contentPositionSlider.setValue(100);
+		} else {
+			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getMedia().getDuration().multiply(endPositionSlider.getValue() / 100));
+			contentPositionSlider.setValue(endPositionSlider.getValue());
+		}
 	}
 
 	@FXML
 	private void skipToPreviousFrameUnit() {
-		//TODO: set content to curr-FrameUnit, if already at begin of selected set startPositionSlider to curr-FrameUnit
+		//set content to curr-FrameUnit, if already at begin of selected set startPositionSlider to curr-FrameUnit
 		mediaView
 				.getMediaPlayer()
 				.seek(mediaView
@@ -104,7 +113,7 @@ public class VisualsController {
 
 	@FXML
 	private void skipToNextFrameUnit() {
-		//TODO: set content to curr+FrameUnit, if already at end of selected set endPositionSlider to curr+FrameUnit begin
+		//set content to curr+FrameUnit, if already at end of selected set endPositionSlider to curr+FrameUnit begin
 		mediaView
 				.getMediaPlayer()
 				.seek(mediaView
@@ -138,13 +147,13 @@ public class VisualsController {
 
 	@FXML
 	private void setBeginPosition() {
-		//TODO: set beginPositionSlider to curr
+		//set beginPositionSlider to curr
 		startPositionSlider.setValue(contentPositionSlider.getValue());
 	}
 
 	@FXML
 	private void setEndPosition() {
-		//TODO: set endPositionSlider to curr
+		//set endPositionSlider to curr
 		endPositionSlider.setValue(contentPositionSlider.getValue());
 	}
 

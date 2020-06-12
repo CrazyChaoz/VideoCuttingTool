@@ -15,11 +15,11 @@ public class Timeline {
         this.audio.add(audio);
     }
 
-    public void setVideo(Set<Clip> video) {
+    public void addVideo(Set<Clip> video) {
         this.video.addAll(video);
     }
 
-    public void setAudio(Set<Clip> audio) {
+    public void addAudio(Set<Clip> audio) {
         this.audio.addAll(audio);
     }
 
