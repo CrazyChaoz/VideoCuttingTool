@@ -54,7 +54,7 @@ public class VisualsController {
 	private Clip clip;
 
 
-	public void setSource(Clip clip) {
+	public void setSource(Clip clip, boolean isVideo) {
 		this.clip=clip;
 		MediaPlayer mediaPlayer = new MediaPlayer(new Media(clip.getMedia().toURI().toString()));
 		mediaView.setMediaPlayer(mediaPlayer);
@@ -66,6 +66,8 @@ public class VisualsController {
 		}));
 		mediaPlayer.setAutoPlay(false);
 
+		if(isVideo)
+			mediaPlayer.setMute(true);
 
 	}
 

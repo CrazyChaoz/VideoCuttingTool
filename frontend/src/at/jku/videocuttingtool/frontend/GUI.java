@@ -67,7 +67,7 @@ public class GUI extends Application {
 		return getContentType(source).split("/")[0].equals("video");
 	}
 
-	private VisualsController createVisualContainer(File source) {
+	private VisualsController createVisualContainer(File source,boolean isVideo) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("mediacontainer/Visuals.fxml"));
 
@@ -82,7 +82,7 @@ public class GUI extends Application {
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();
 		VisualsController controller = loader.getController();
-		controller.setSource(new Clip(source,0));
+		controller.setSource(new Clip(source,0),isVideo);
 		popup.setOnCloseRequest(uwu -> controller.onClose());
 		return controller;
 	}
@@ -155,10 +155,12 @@ public class GUI extends Application {
 			try {
 				System.out.println(getContentType(source));
 
-				VisualsController controller = createVisualContainer(source);
+//				VisualsController controller =
 
 					if (isVideo(source)) {
+						createVisualContainer(source,true);
 					} else if (isAudio(source)) {
+						createVisualContainer(source,false);
 					}
 
 			} catch (IOException e) {
