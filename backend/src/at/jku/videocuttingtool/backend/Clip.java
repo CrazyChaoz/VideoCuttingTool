@@ -11,10 +11,10 @@ import java.util.Arrays;
  * The media will be cut at the specified timestamps
  */
 public class Clip implements Comparable<Clip> {
-    private final int pos;
+    private int pos;
     private final File media;
-    private final String start;
-    private final String end;
+    private String start;
+    private String end;
 
     /**
      * @param media original uncut media link
@@ -98,4 +98,15 @@ public class Clip implements Comparable<Clip> {
     }
 
 
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
 }

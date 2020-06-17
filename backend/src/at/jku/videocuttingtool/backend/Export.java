@@ -1,6 +1,7 @@
 package at.jku.videocuttingtool.backend;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * Container Class for an export
@@ -23,6 +24,14 @@ public class Export {
         this.videoFormat = videoFormat;
         this.audioFormat = audioFormat;
     }
+
+
+
+    public Export(Timeline timeline) {
+        this(timeline, new File(""),"mp4","mp3");
+    }
+
+
 
     public Timeline getTimeline() {
         return timeline;

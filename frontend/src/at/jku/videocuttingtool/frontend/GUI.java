@@ -1,7 +1,6 @@
 package at.jku.videocuttingtool.frontend;
 
-import at.jku.videocuttingtool.backend.Backend;
-import at.jku.videocuttingtool.backend.Clip;
+import at.jku.videocuttingtool.backend.*;
 import at.jku.videocuttingtool.frontend.mediacontainer.VisualsController;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
@@ -15,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -32,7 +30,7 @@ public class GUI extends Application {
 	private Backend backend = new Backend();
 	private IntegerProperty filesToConvertProperty;
 	private Stage convertingFilesProgressIndicator;
-
+	private Timeline timeline= new Timeline();
 	private Stage primaryStage;
 
 	public static void main(String[] args) {
@@ -42,7 +40,8 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		this.primaryStage=primaryStage;
+
+		this.primaryStage = primaryStage;
 
 		Scene scene = new Scene(FXMLLoader.load(getClass().getResource("NewAndUpdatedMainGui.fxml")));
 		primaryStage.setTitle("VideoCuttingTool");
@@ -67,7 +66,7 @@ public class GUI extends Application {
 		return getContentType(source).split("/")[0].equals("video");
 	}
 
-	private VisualsController createVisualContainer(File source,boolean isVideo) {
+	private VisualsController createVisualContainer(Clip source, boolean isVideo) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("mediacontainer/Visuals.fxml"));
 
@@ -78,11 +77,11 @@ public class GUI extends Application {
 		}
 
 		Stage popup = new Stage();
-		popup.setTitle(source.getName());
+		popup.setTitle(source.getMedia().getName());
 		popup.setScene(new Scene(loader.getRoot()));
 		popup.show();
 		VisualsController controller = loader.getController();
-		controller.setSource(new Clip(source,0),isVideo);
+		controller.setSource(source, isVideo);
 		popup.setOnCloseRequest(uwu -> controller.onClose());
 		return controller;
 	}
@@ -138,6 +137,18 @@ public class GUI extends Application {
 //			else
 //				updateProgressBar(files.size());
 			backend.addSources(files);
+			files.forEach(source->{
+				try {
+					Clip clip = new Clip(source,0);
+					if (isVideo(source)) {
+						timeline.addVideo(clip);
+					} else if (isAudio(source)) {
+						timeline.addAudio(clip);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
 		}
 	}
 
@@ -151,22 +162,20 @@ public class GUI extends Application {
 
 	@FXML
 	private void displayElements() {
-		backend.getSources().forEach((source -> {
-			try {
-				System.out.println(getContentType(source));
-
-//				VisualsController controller =
-
-					if (isVideo(source)) {
-						createVisualContainer(source,true);
-					} else if (isAudio(source)) {
-						createVisualContainer(source,false);
-					}
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}));
+		timeline.getVideo().forEach(source->createVisualContainer(source, true));
+		timeline.getAudio().forEach(source->createVisualContainer(source, false));
 	}
 
+	@FXML
+	private void onExportButtonPressed(){
+		try {
+			backend.export(new Export(timeline));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (EditMediaException e) {
+			e.printStackTrace();
+		}
+	}
 }

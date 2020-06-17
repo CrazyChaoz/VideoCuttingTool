@@ -47,6 +47,10 @@ public class Backend {
      */
     public void export(Export export) throws IOException, InterruptedException, EditMediaException {
         File exportDir = export.getExport().getParentFile();
+
+        if(exportDir==null)
+            exportDir=workingDir;
+
         if (!exportDir.isDirectory()) {
             return;
         }
@@ -126,6 +130,9 @@ public class Backend {
 
         delDir(vDir);
         delDir(aDir);
+
+
+        System.out.println("Finished Exporting");
     }
 
     /**

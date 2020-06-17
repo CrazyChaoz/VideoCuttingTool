@@ -7,13 +7,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-
-import java.io.File;
 
 public class VisualsController {
 
@@ -51,11 +50,14 @@ public class VisualsController {
 	@FXML
 	private Slider endPositionSlider;
 
+	@FXML
+	private TextField positionInTimelineField;
+
 	private Clip clip;
 
 
 	public void setSource(Clip clip, boolean isVideo) {
-		this.clip=clip;
+		this.clip = clip;
 		MediaPlayer mediaPlayer = new MediaPlayer(new Media(clip.getMedia().toURI().toString()));
 		mediaView.setMediaPlayer(mediaPlayer);
 		mediaPlayer.currentTimeProperty().addListener(x -> Platform.runLater(() -> {
@@ -66,7 +68,7 @@ public class VisualsController {
 		}));
 		mediaPlayer.setAutoPlay(false);
 
-		if(isVideo)
+		if (isVideo)
 			mediaPlayer.setMute(true);
 
 	}
@@ -145,7 +147,7 @@ public class VisualsController {
 			} else {
 				mediaView.getMediaPlayer().pause();
 			}
-		}else {
+		} else {
 			mediaView.getMediaPlayer().play();
 		}
 	}
@@ -154,26 +156,33 @@ public class VisualsController {
 	private void setBeginPosition() {
 		//set beginPositionSlider to curr
 		startPositionSlider.setValue(contentPositionSlider.getValue());
-
-		System.out.println(getBauerFormatting());
+		clip.setStart(getBauerFormatting());
 	}
 
 	@FXML
 	private void setEndPosition() {
 		//set endPositionSlider to curr
 		endPositionSlider.setValue(contentPositionSlider.getValue());
-
-		System.out.println(getBauerFormatting());
+		clip.setEnd(getBauerFormatting());
 	}
 
-	private String getBauerFormatting(){
-		return 	(int)mediaView.getMediaPlayer().getCurrentTime().toHours()+
-				":"+
-				(int)mediaView.getMediaPlayer().getCurrentTime().toMinutes()%60+
-				":"+
-				(int)mediaView.getMediaPlayer().getCurrentTime().toSeconds()%60+
-				"."+
-				(int)mediaView.getMediaPlayer().getCurrentTime().toMillis()%1000;
+	@FXML
+	private void setPositionInTimeline() {
+		try {
+			clip.setPos(Integer.parseInt(positionInTimelineField.getText()));
+		} catch (NumberFormatException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+
+	private String getBauerFormatting() {
+		return (int) mediaView.getMediaPlayer().getCurrentTime().toHours() +
+				":" +
+				(int) mediaView.getMediaPlayer().getCurrentTime().toMinutes() % 60 +
+				":" +
+				(int) mediaView.getMediaPlayer().getCurrentTime().toSeconds() % 60 +
+				"." +
+				(int) mediaView.getMediaPlayer().getCurrentTime().toMillis() % 1000;
 	}
 
 	public void onClose() {
