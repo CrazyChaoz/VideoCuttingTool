@@ -197,7 +197,8 @@ public class GUI extends Application {
 	@FXML
 	private void onExportButtonPressed(){
 		try {
-			backend.export(new Export(timeline));
+			File file=new DirectoryChooser().showDialog(primaryStage);
+			backend.export(new Export(timeline,new File(file.getAbsolutePath()+"/out.mp4"),"mp4","mp3"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

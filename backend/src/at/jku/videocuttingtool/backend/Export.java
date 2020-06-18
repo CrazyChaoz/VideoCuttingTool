@@ -26,13 +26,6 @@ public class Export {
     }
 
 
-
-    public Export(Timeline timeline) {
-        this(timeline, new File(""),"mp4","mp3");
-    }
-
-
-
     public Timeline getTimeline() {
         return timeline;
     }
