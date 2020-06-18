@@ -152,6 +152,34 @@ public class GUI extends Application {
 		}
 	}
 
+
+	@FXML
+	private void saveProject() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File file = directoryChooser.showDialog(primaryStage);
+		if (file != null){
+			try {
+				backend.saveProject(timeline,file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@FXML
+	private void loadProject() {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File file = directoryChooser.showDialog(primaryStage);
+		if (file != null){
+			try {
+				timeline=backend.loadProject(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
 	@FXML
 	private void setWorkingDir() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
