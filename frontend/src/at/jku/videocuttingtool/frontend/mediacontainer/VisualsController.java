@@ -5,6 +5,7 @@ import at.jku.videocuttingtool.backend.Clip;
 import at.jku.videocuttingtool.frontend.GUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -20,6 +21,9 @@ public class VisualsController {
 	public BorderPane papaContainer;
 	@FXML
 	private MediaView mediaView;
+	@FXML
+	private AreaChart<String, Number> audioView;
+
 	@FXML
 	private Button beginButton;
 
@@ -68,11 +72,17 @@ public class VisualsController {
 		}));
 		mediaPlayer.setAutoPlay(false);
 
-		if (isVideo)
+		if (isVideo) {
 			mediaPlayer.setMute(true);
+			audioView.setVisible(false);
+			audioView.setManaged(false);
+		} else {
+			mediaView.setVisible(false);
+			mediaView.setManaged(false);
+			mediaPlayer.setAudioSpectrumListener(new SpectrumListener(mediaPlayer, audioView));
+		}
 
 		positionInTimelineField.setText(clip.getPos()+"");
-
 	}
 
 
