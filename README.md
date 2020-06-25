@@ -5,9 +5,9 @@ A simple Video Cutting Tool
 <img src="https://i.imgur.com/AzaU1bo.png" width="250" title="Logo">
 
 ### Team:
-* Philipp Bauer, 11941210, Backend
+* [Philipp Bauer](https://github.com/BauePhil), 11941210, Backend
 * [Stefan Kempinger](https://github.com/CrazyChaoz), 11908714, Frontend (Video)
-* Valentin Jochinger, 01628031, Frontend (Audio)
+* [Valentin Jochinger](https://github.com/skiller-bat), 01628031, Frontend (Audio)
 
 ### Projektbeschreibung:
 Eine Applikation die ähnlich zu bestehenden Videobearbeitungsprogrammen (DaVinci Resolve, Adobe Premiere) verschiedene Sourcedateien(möglicherweise aus verschiedenen Quellformaten) zu einer finalen Datei verarbeitet.
