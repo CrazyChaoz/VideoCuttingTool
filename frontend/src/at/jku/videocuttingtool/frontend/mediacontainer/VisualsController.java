@@ -23,7 +23,8 @@ public class VisualsController {
 	private MediaView mediaView;
 	@FXML
 	private AreaChart<String, Number> audioView;
-
+	@FXML
+	private AreaChart<Number, Number> totalView;
 	@FXML
 	private Button beginButton;
 
@@ -76,10 +77,12 @@ public class VisualsController {
 			mediaPlayer.setMute(true);
 			audioView.setVisible(false);
 			audioView.setManaged(false);
+			totalView.setVisible(false);
+			totalView.setManaged(false);
 		} else {
 			mediaView.setVisible(false);
 			mediaView.setManaged(false);
-			mediaPlayer.setAudioSpectrumListener(new SpectrumListener(mediaPlayer, audioView));
+			mediaPlayer.setAudioSpectrumListener(new SpectrumListener(mediaPlayer, audioView, totalView));
 		}
 
 		positionInTimelineField.setText(clip.getPos()+"");
