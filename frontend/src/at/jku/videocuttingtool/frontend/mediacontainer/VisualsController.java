@@ -24,7 +24,7 @@ public class VisualsController {
 	@FXML
 	private AreaChart<String, Number> audioView;
 	@FXML
-	private AreaChart<Number, Number> totalView;
+	private AreaChart<Integer, Number> totalView;
 	@FXML
 	private Button beginButton;
 

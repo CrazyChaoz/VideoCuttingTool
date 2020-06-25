@@ -23,10 +23,10 @@
                </AreaChart>
                <AreaChart fx:id="totalView" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" verticalGridLinesVisible="true" verticalZeroLineVisible="true">
                   <xAxis>
-                     <NumberAxis animated="false" autoRanging="true" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" visible="true" label="Time" />
+                     <NumberAxis animated="false" autoRanging="false" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="100" visible="true" label="Time" />
                   </xAxis>
                   <yAxis>
-                     <NumberAxis animated="false" autoRanging="false" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" label="Amplitude" />
+                     <NumberAxis animated="false" autoRanging="false" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" label="Amplitude" />
                   </yAxis>
                </AreaChart>
             </VBox>
