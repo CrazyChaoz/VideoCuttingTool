@@ -15,10 +15,10 @@
                <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="650.0" BorderPane.alignment="CENTER" />
                <AreaChart fx:id="audioView" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" verticalGridLinesVisible="true" verticalZeroLineVisible="true">
                   <xAxis>
-                     <CategoryAxis animated="false" side="BOTTOM" tickLabelsVisible="true" tickMarkVisible="true" visible="true" label="Frequency Band"/>
+                     <CategoryAxis label="Frequency Band" animated="false" side="BOTTOM" tickLabelsVisible="true" tickMarkVisible="true" visible="true" />
                   </xAxis>
                   <yAxis>
-                     <NumberAxis animated="false" autoRanging="false" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" label="Amplitude" />
+                     <NumberAxis label="Amplitude" animated="false" autoRanging="false" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" />
                   </yAxis>
                </AreaChart>
                <AreaChart fx:id="totalView" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" verticalGridLinesVisible="true" verticalZeroLineVisible="true">
