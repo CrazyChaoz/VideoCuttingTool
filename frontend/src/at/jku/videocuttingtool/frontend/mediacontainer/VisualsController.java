@@ -77,6 +77,8 @@ public class VisualsController {
 			mediaPlayer.setMute(true);
 			audioView.setVisible(false);
 			audioView.setManaged(false);
+			totalView.setVisible(false);
+			totalView.setManaged(false);
 		} else {
 			mediaView.setVisible(false);
 			mediaView.setManaged(false);
