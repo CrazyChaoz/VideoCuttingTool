@@ -191,7 +191,7 @@ public class GUI extends Application {
 
 	@FXML
 	private void displayElements() {
-		timeline.getVideo().forEach(source->createVisualContainer(source, true));
+		timeline.getVideo().forEach(source->{createVisualContainer(source, true);if(SPLIT_VIDEO)createVisualContainer(source, false);});
 		timeline.getAudio().forEach(source->createVisualContainer(source, false));
 	}
 

@@ -4,6 +4,8 @@ package at.jku.videocuttingtool.frontend.mediacontainer;
 import at.jku.videocuttingtool.backend.Clip;
 import at.jku.videocuttingtool.frontend.GUI;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.control.Button;
@@ -63,18 +65,22 @@ public class VisualsController {
 
 	public void setSource(Clip clip, boolean isVideo) {
 		this.clip = clip;
+
+
 		MediaPlayer mediaPlayer = new MediaPlayer(new Media(clip.getMedia().toURI().toString()));
 		mediaView.setMediaPlayer(mediaPlayer);
-		mediaPlayer.currentTimeProperty().addListener(x -> Platform.runLater(() -> {
-			contentPositionSlider.setValue(mediaPlayer.getCurrentTime().toMillis() / mediaPlayer.getTotalDuration().toMillis() * 100);
+		mediaPlayer.currentTimeProperty().addListener(observable -> {
+			contentPositionSlider.setValue(mediaView.getMediaPlayer().getCurrentTime().toMillis() / mediaView.getMediaPlayer().getTotalDuration().toMillis() * 100);
 			if (contentPositionSlider.getValue() > endPositionSlider.getValue()) {
-				mediaPlayer.pause();
+				mediaView.getMediaPlayer().pause();
 			}
-		}));
+		});
+
 		mediaPlayer.setAutoPlay(false);
 
 		if (isVideo) {
-			mediaPlayer.setMute(true);
+			if (GUI.SPLIT_VIDEO)
+				mediaPlayer.setMute(true);
 			audioView.setVisible(false);
 			audioView.setManaged(false);
 			totalView.setVisible(false);
@@ -85,7 +91,7 @@ public class VisualsController {
 			mediaPlayer.setAudioSpectrumListener(new SpectrumListener(mediaPlayer, audioView, totalView));
 		}
 
-		positionInTimelineField.setText(clip.getPos()+"");
+		positionInTimelineField.setText(clip.getPos() + "");
 	}
 
 
