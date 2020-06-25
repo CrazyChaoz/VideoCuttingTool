@@ -71,6 +71,8 @@ public class VisualsController {
 		if (isVideo)
 			mediaPlayer.setMute(true);
 
+		positionInTimelineField.setText(clip.getPos()+"");
+
 	}
 
 
