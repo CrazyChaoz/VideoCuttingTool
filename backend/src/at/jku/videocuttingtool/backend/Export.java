@@ -25,7 +25,6 @@ public class Export {
         this.audioFormat = audioFormat;
     }
 
-
     public Timeline getTimeline() {
         return timeline;
     }

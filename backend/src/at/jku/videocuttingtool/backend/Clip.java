@@ -60,6 +60,11 @@ public class Clip implements Comparable<Clip> {
         return Integer.compare(pos, o.pos);
     }
 
+    /**
+     * generate a Clip object from a loaded file-entry
+     * @param from line entry from the loaded file
+     * @return parsed Clip object
+     */
     public static Clip parse(String from) {
         String[] split = from.split(";");
         String start = "", end = "";
@@ -96,7 +101,6 @@ public class Clip implements Comparable<Clip> {
     public String getEnd() {
         return end;
     }
-
 
     public void setStart(String start) {
         this.start = start;

@@ -3,6 +3,9 @@ package at.jku.videocuttingtool.backend;
 
 import java.util.*;
 
+/**
+ * Container class for the video and audio tracks of the timeline
+ */
 public class Timeline {
     private final List<Clip> video = new ArrayList<>();
     private final List<Clip> audio = new ArrayList<>();
@@ -15,11 +18,11 @@ public class Timeline {
         this.audio.add(audio);
     }
 
-    public void addVideo(Set<Clip> video) {
+    public void addVideo(List<Clip> video) {
         this.video.addAll(video);
     }
 
-    public void addAudio(Set<Clip> audio) {
+    public void addAudio(List<Clip> audio) {
         this.audio.addAll(audio);
     }
 

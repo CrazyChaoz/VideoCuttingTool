@@ -16,6 +16,11 @@ public class Backend {
     private static final String sep = File.separator;
     private static final String ffmpeg = "lib" + sep + "ffmpeg" + sep + "ffmpeg.exe";
 
+    /**
+     * add sources that are to be used in the project
+     *
+     * @param sources a list of Files
+     */
     public void addSources(List<File> sources) {
         files.addAll(sources);
     }
@@ -48,13 +53,15 @@ public class Backend {
     public void export(Export export) throws IOException, InterruptedException, EditMediaException {
         File exportDir = export.getExport().getParentFile();
 
-        if(exportDir==null)
-            exportDir=workingDir;
+        if(exportDir==null) {
+            exportDir = workingDir;
+        }
 
         if (!exportDir.isDirectory()) {
             return;
         }
 
+        //generate temporary directories for the export
         File vDir = new File(exportDir + sep + "outV");
         vDir.mkdir();
         File aDir = new File(exportDir + sep + "outA");
@@ -62,10 +69,13 @@ public class Backend {
 
         String vF = export.getVideoFormat();
         String aF = export.getAudioFormat();
-
         File vMerged = null, aMerged = null;
         boolean hasVideo = false, hasAudio = false;
 
+        /*
+         * if there are more than 1 files in the video or audio timeline
+         * merge them together
+         */
         Process merge;
         if (export.getTimeline().getVideo().size() > 0) {
             if (export.getTimeline().getVideo().size() == 1) {
@@ -93,6 +103,10 @@ public class Backend {
             hasAudio = true;
         }
 
+        /*
+         * check if there is audio overlapping the video
+         * if there is merge the extra audio with the video and its audio
+         */
         if (hasVideo && hasAudio){
             String extractAudio = new Exec(ffmpeg)
                     .addInput(vMerged.getAbsolutePath())
@@ -130,9 +144,6 @@ public class Backend {
 
         delDir(vDir);
         delDir(aDir);
-
-
-        System.out.println("Finished Exporting");
     }
 
     /**
@@ -152,6 +163,10 @@ public class Backend {
             return null;
         }
 
+        /*
+         * apply the start and end time if available to the clip
+         * -> cut the clip to size
+         */
         File tmp = new File(dir + sep + "ffmpeg_merge.txt");
         StringBuilder files = new StringBuilder();
         for (Clip c : media) {
@@ -283,6 +298,10 @@ public class Backend {
                 .forEach(File::delete);
     }
 
+    /**
+     * getter for the source files
+     * @return list of files
+     */
     public List<File> getSources() {
         return files;
     }
