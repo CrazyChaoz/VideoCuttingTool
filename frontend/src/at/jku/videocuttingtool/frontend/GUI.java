@@ -26,6 +26,7 @@ import java.util.List;
 
 public class GUI extends Application {
 	public static final int MINIMAL_SKIPPABLE_TIME = 200; //milliseconds
+	public static final boolean SPLIT_VIDEO=false;
 
 	private Backend backend = new Backend();
 	private IntegerProperty filesToConvertProperty;
