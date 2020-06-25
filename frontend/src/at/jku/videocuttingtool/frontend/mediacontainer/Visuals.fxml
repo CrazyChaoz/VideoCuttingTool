@@ -15,18 +15,18 @@
                <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="650.0" BorderPane.alignment="CENTER" />
                <AreaChart fx:id="audioView" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" verticalGridLinesVisible="true" verticalZeroLineVisible="true">
                   <xAxis>
-                     <CategoryAxis animated="false" side="BOTTOM" tickLabelsVisible="true" tickMarkVisible="true" visible="true" label="Frequency Band"/>
+                     <CategoryAxis animated="false" label="Frequency Band" side="BOTTOM" tickLabelsVisible="true" tickMarkVisible="true" visible="true" />
                   </xAxis>
                   <yAxis>
-                     <NumberAxis animated="false" autoRanging="false" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" label="Amplitude" />
+                     <NumberAxis animated="false" autoRanging="false" label="Amplitude" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" />
                   </yAxis>
                </AreaChart>
                <AreaChart fx:id="totalView" alternativeRowFillVisible="false" animated="false" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" verticalGridLinesVisible="true" verticalZeroLineVisible="true">
                   <xAxis>
-                     <NumberAxis animated="false" autoRanging="true" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" visible="true" label="Time" />
+                     <NumberAxis animated="false" autoRanging="true" label="Time" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" visible="true" />
                   </xAxis>
                   <yAxis>
-                     <NumberAxis animated="false" autoRanging="false" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" label="Amplitude" />
+                     <NumberAxis animated="false" autoRanging="false" label="Amplitude" minorTickVisible="true" side="LEFT" tickLabelsVisible="false" tickMarkVisible="true" upperBound="55.0" visible="true" />
                   </yAxis>
                </AreaChart>
             </VBox>
@@ -53,7 +53,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Slider>
-                  <Slider fx:id="contentPositionSlider" onDragDone="#repositionContentPositionSlider" GridPane.columnIndex="1">
+                  <Slider fx:id="contentPositionSlider" onMouseClicked="#repositionContentPositionSlider" onMouseDragged="#repositionContentPositionSlider" GridPane.columnIndex="1">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
