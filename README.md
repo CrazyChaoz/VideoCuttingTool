@@ -31,3 +31,5 @@ Plain Java: Bereitstellung von Content/ Funktionalität, Konvertierung, Einbindu
 [Link zur Präsentation](https://docs.google.com/presentation/d/1jPUz3qf9rUpdtvgTDTzwFC3vzDXHXbDY5CD2Jn0httw)
 <br>
 [Link zum Dokument](https://docs.google.com/document/d/1TKOEGw1QCur8rUuCatM31_4fVPAkKvcZSJ5fFjBRuyI)
+<br>
+[Link zum Projektantrag](https://docs.google.com/document/d/1EcTChmQG01egTNDx112B8sYzx8w7Scj40SId43__TG0)
